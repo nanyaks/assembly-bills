@@ -794,7 +794,7 @@ input[type="tel"],
 input[type="color"],
 .uneditable-input {
   display: inline-block;
-  height: 18px;
+  height: 28px;		/* changed it from 18px */
   padding: 4px;
   margin-bottom: 9px;
   font-size: 13px;
@@ -5038,14 +5038,13 @@ footer {
 .cell-content h3 {
 	font-weight: normal;
 	letter-spacing: 0.05em;
-	/*color: #DD390D;*/
 	color: #fff;
 	padding: 5px;
 	border-bottom: 1px solid rgba(153, 153, 153, 0.3);
 }
 
 .cell-content p {
-	color: #bbb;
+	color: #eee;
 	text-indent: 1em;
 	line-height: 1.8;
 	padding-top: 5px;
@@ -5078,12 +5077,12 @@ footer {
 
 .form-capsule {
 	border: 1px solid #ccc;
-	background-color: #fff;
+	/*background-color: #fff;
 	border-radius: 5px;
 	width: 45%;
 	margin-left: 25%;
 	padding: 2em;
-	box-shadow: 0px 0px 3px #ccc;
+	box-shadow: 0px 0px 3px #ccc;*/
 }
 
 .form-capsule ul {

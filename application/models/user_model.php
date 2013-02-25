@@ -16,12 +16,13 @@ class User_model extends CI_Model{
                 'id' => NULL,
                 'username' => $this->input->post('username'),
                 'password' => md5($this->input->post('passwd')),
-				'name' => $this->input->post('f_name'),
+				'fname' => $this->input->post('f_name'),
+				'lname'=>$this->input->post('lastname'),
                 'dateReg' => NULL,
 				'email' => $this->input->post('email'),
 				//'address' => $this->input->post('address'),
-				'city' => $this->input->post('city'),
-				'state' => $this->input->post('state'),
+				//'city' => $this->input->post('city'),
+				//'state' => $this->input->post('state'),
 				'isDeleted' => 0,
 				);
 		

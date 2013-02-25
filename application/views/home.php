@@ -35,8 +35,8 @@
       <!-- Main hero unit for a primary marketing message or call to action -->
       <div class="hero-unit">
       	<div class="row-fluid">
-      		
-      		<div class="offset1"><h1><span class='text-white-shadw' style="margin-left: 60px;">Assembly Bills</span></h1></div>
+      		<div class="span1"></div>
+      		<div class=""><h1><span class='text-white-shadw' style="margin-left: 60px;">Assembly Bills</span></h1></div>
       	</div>
        
         <div class='row-fluid'>

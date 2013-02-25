@@ -31,43 +31,37 @@
     <div class="container-fluid">
 
       <!-- Main hero unit for a primary marketing message or call to action -->
-      <div class="hero-unit">
-      	<div class="row-fluid">
-      		<div class="span1"></div>
-      		<div class="span11"><h2><span class='text-white-shadw'>Register</span></h2></div>
+	<div class="hero-unit">
+		<div class="row">
+      		<div class="span3"></div>
+      		<div class="span5">
+      			<span class='large-txt text-white-shadw'>Create an account</span>
+      			<span class="offset1"><span class="large-txt">(</span>or <a href="#">login</a><span class="large-txt">)</span></span>
+      		</div>
       	</div>
-       
-        <div class='row-fluid'>
-        	<div class="span1"></div>
-        	<div class='span6'>
-	        	<p>
-	        		<span class='text-white-shadw'>Welcome to assembly bills.
-	        			Take a minute to register and enjoy the premium features of this application. Lets keep our legislature close!<br />
-	        		</span>
-	        	</p>
-	        	
-        	</div>
-        	<div class='span6'>
-	        	<div class="space-pad">	
-	        		<!-- <img src="<?php //echo $img . '/stripe-photo.png'; ?>" alt='assembly-bills-scroll' />  -->
-	        	</div>
-        	</div>
-        </div>
         <hr>
-        <form class="form-capsule form-horizontal" name="user-reg" id="user-reg" action="<?php echo site_url('user/register');?>" method="post">
-		  <fieldset>
-		    
-		    <legend><span style="font-size: 16px; font-weight: bold;">User Information</span></legend>
-		    <div id='form-user-reg' class='span6'>
-		  	<div class="control-group">
-		      	<div class="controls">
-		      		<label class="control-label" for="input01">First name</label>
-		        	<input type="text" class="input" placeholder="First name…" name="firstname" value="<?php echo set_value('firstname'); ?>" />
+        <?php 
+        	if(isset($error)){
+        		echo $error; // @TODO: Add styling for the error
+        	}
+        ?>
+        
+        <div class="row-fluid">
+        	<div class="span2 debug"></div>
+        	<div class="span8 debug">
+	        <form class="form-horizontal" name="user-reg" id="user-reg" action="<?php echo site_url('user/register');?>" method="post">	      	
+		      	<div class="control-group">
+		      		<label class="control-label" for="inputFirstname">First name</label>
+		      		<div class="controls">
+		        		<input type="text" class="input-large" id="inputFirstname" placeholder="First name…" name="firstname" value="<?php echo set_value('firstname'); ?>" />
+		        	</div>
 		      	</div>
-		   		
-				<div class="controls">
-					<label class="control-label" for="input01">Last name</label>
-			    	<input type="text" class="input" placeholder="Last Name…" name="lastname" value="<?php echo set_value('lastname'); ?>" />
+			   		
+				<div class="control-group">
+					<label class="control-label" for="inputLastname">Last name</label>
+			    	<div class="controls">
+			    		<input type="text" class="input-large" id="inputLastname" placeholder="Last Name…" name="lastname" value="<?php echo set_value('lastname'); ?>" />
+			    	</div>
 			  	</div>
 			  	<div class="controls">
 			  	<span class="help-block">Gender</span>
@@ -82,36 +76,41 @@
 			    		</span>
 			  		</label>
 			  	</div>
-			  	
-				<div class="controls">
-					<label class="control-label" for="input01">User Email</label>
-			    	<input type="text" class="input" placeholder="Email…">
+				  	
+				<div class="control-group">
+					<label class="control-label" for="inputEmail">Last name</label>
+					<div class="controls">
+			    		<input type="email" class="input-large" id="inputEmail" placeholder="Email…" name="email" value="<?php echo set_value('email'); ?>" />
+			    	</div>
 			  	</div>
 			  	
-				<div class="controls">
-					<label class="control-label" for="input01">Username</label>
-			    	<input type="text" class="input" placeholder="Username…">
+				<div class="control-group">
+					<label class="control-label" for="inputUsername">Last name</label>
+					<div class="controls">
+			    		<input type="text" class="input-large" id="inputUsername" placeholder="Username…" name="username" value="<?php echo set_value('username'); ?>" />
+			    	</div>
 			  	</div>
 			  	
-				<div class="controls">
-					<label class="control-label" for="input01">Password</label>
-			    	<input type="password" class="input" placeholder="Password…">
+				<div class="control-group">
+					<label class="control-label" for="inputPassword">Last name</label>
+					<div class="controls">
+			    		<input type="password" name="password" id="inputPassword" class="input-large" placeholder="Password…">
+			    	</div>
 			  	</div>
 			  	<br />
-			  	<div class="offset2" ><button type="submit" class="btn btn-primary" style="margin-left:55px;">register &raquo;</button></div>
+			  	<div class="offset2">
+			  		<input type="submit" name="register" class="btn btn-large btn-primary" value="Register" />
+			  	</div>
 			  	<br />
-			  	<div class="span6" style="text-align: center;">By clicking register you agree to the <a href="#">Terms of Service</a></div>
-		    </div>
-		    	
-		    
-		    </div>
-		  </fieldset>
-		  
-		</form>
-        </div>
-		<?php echo validation_errors(); ?>
+			  	<small class="span6">
+			  		By clicking register you agree to the <a href="#">Terms of Service</a>
+			  	</small>
+			</form>
+			</div>
+			<div class="span2 debug"></div>
+		</div>
+	</div>
+		<?php //echo validation_errors(); ?>
 	
-		 
-		
 	</div>
 <div style="clear: both"></div>

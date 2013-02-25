@@ -29,7 +29,10 @@ class User extends CI_Controller {
 		$this->less = $this->config->item('less');
 	}
 	
-	public function _init_locations(){
+	/*
+	 * Load static file locations for use within the controller
+	 */
+	public function _static(){
 		$data['base'] = $this->base;
 		$data['css'] = $this->css;
 		$data['js'] = $this->js;
@@ -45,14 +48,75 @@ class User extends CI_Controller {
 	}
 	
 	public function register(){
-		$data = $this->_init_locations();
+		$data = $this->_static();
+
+		// Load the url helper...
+		$this->load->helper('url');
+		$this->load->helper('form');
+		$this->load->library(array('encrypt', 'form_validation', 'session'));
+		//$this->load->library('form_validation');
+		
+		
+		$data['title'] = 'New User Registration -- Assembly Bills';
+		
+		// Set the form rules
+		$this->form_validation->set_rules('firstname', 'First Name', 'required|trim|xss_clean');
+		$this->form_validation->set_rules('lastname', 'Last Name', 'required|trim|xss_clean');
+		$this->form_validation->set_rules('gender', 'Gender', 'required');
+		$this->form_validation->set_rules('email', 'User Email', 'trim|xss_clean|callback_email_check');
+		$this->form_validation->set_rules('username', 'Username', 'required|trim|xss_clean');
+		$this->form_validation->set_rules('password', 'Password', 'required|trim|xss_clean');
+		
+		#	If the button was clicked
+		if(($this->input->server('REQUEST_METHOD') === 'POST') && $this->input->post('register')){
+			//print_r($this->input->post());
+			#	Check if the form passed validation
+			if($this->form_validation->run() == FALSE) {
+				$data['error'] = 'Ensure all fields are filled!';
+			
+				//redirect('user/register', 'refresh');	<-- somehow doesn't help with the form re-population
+				$this->load->view('templates/header', $data);
+				$this->load->view('user/registration', $data);
+				$this->load->view('templates/footer');
+			}
+			else{
+				//$_insert = $this->user_model->register_user();
+				print_r($this->input->post());
+				die();
+				
+				if($_insert){
+					/*
+					 * @TODO: set flash message to be displayed on this page and then redirect to '$referal' page
+					 */
+					redirect('user/success', 'refresh');
+				}
+				else{
+					/*
+					 * @TODO: Test error message if deiplayed properly
+					 */
+					$this->session->set_flashdata('message', 'Insertion Error');
+				}
+				
+			}
+		}
+		else {
+			// Load the view when form hasn't been submitted at all
+			$this->load->view('templates/header', $data);
+			$this->load->view('user/registration', $data);
+			$this->load->view('templates/footer');
+		}
+	}
+	
+	public function edit(){
+		$data = $this->_static();
 		
 		// Load the url helper...
 		$this->load->helper('url');
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 		
-		$data['title'] = 'New User Registration -- Assembly Bills';
+		
+		$data['title'] = 'Edit profile -- Assembly Bills';
 		
 		// Set the form rules
 		$this->form_validation->set_rules('firstname', 'First Name', 'required');
@@ -61,14 +125,12 @@ class User extends CI_Controller {
 		$this->form_validation->set_rules('email', 'User Email', 'callback_email_check');
 		$this->form_validation->set_rules('username', 'Username', 'required');
 		$this->form_validation->set_rules('password', 'Password', 'required');
-		$this->form_validation->set_rules('city', 'City', 'required');
-		$this->form_validation->set_rules('state', 'State', 'required');		
 		
 		// If form is !(validated), load form with error messages
 		if($this->form_validation->run() === FALSE){
 			// Load the view
 			$this->load->view('templates/header', $data);
-			$this->load->view('user/registration');
+			$this->load->view('user/edit', $data);
 			$this->load->view('templates/footer');
 		} else {
 			// Insert into db here!
@@ -76,6 +138,25 @@ class User extends CI_Controller {
 			$this->load->view('user/success');
 		}
 	}
+	
+	public function bills(){
+		$data = $this->_static();
+		
+		// Load the url helper...
+		$this->load->helper('url');
+		
+		$data['title'] = 'My Bills Watchlist';
+		
+		// Load information about user bills from the database
+		#$data['bills'] = $this->user_model->fetch_my_bills();
+		
+		if(1){
+			$this->load->view('templates/header', $data);
+			$this->load->view('user/mybills', $data);
+			$this->load->view('templates/footer');
+		}
+	}
+	
 	/*
 	 * Validation callbacks to be used together with form_input->set_value()
 	 * 

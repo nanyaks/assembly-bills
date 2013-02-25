@@ -6,7 +6,7 @@ class Home extends CI_Controller {
 	 * @author 	Nanyak Loknan S.
 	 * @version	1.0
 	 * 
-	 * Default controller for the smartbuy CRM application.
+	 * Default controller for the assembly bills application.
 	 *
 	 * Maps to the following URL
 	 * 		http://example.com/index.php/home
