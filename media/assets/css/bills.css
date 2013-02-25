@@ -1,0 +1,12 @@
+/*
+ * 	@file: Custom classes for the Assembly bills project
+ *	@motive: Dont want to mess up my bootstrap.css file
+ */
+
+.large-txt {
+	font-size: 1.2em;
+}
+
+.debug {
+	border: 1px dotted #aa0000;
+}
