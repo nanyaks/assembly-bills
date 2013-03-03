@@ -111,7 +111,7 @@
 		  
 		</form>
         </div>
-		<?php echo validation_errors(); ?>
+		<?php //echo validation_errors(); ?>
 	
 	</div>
 <div style="clear: both"></div>

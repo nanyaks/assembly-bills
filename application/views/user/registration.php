@@ -36,12 +36,14 @@
       		<div class="span3 "></div>
       		<div class="span5 ">
       			<span class='large-txt text-white-shadw'>Create an account</span>
-      			<span class="offset1"><span class="large-txt">(</span>or <a href="#">login</a><span class="large-txt">)</span></span>
+      			<span class="offset">
+      				<span class="large-txt">(</span>or <a href="#">login</a><span class="large-txt">)</span>
+      			</span>
       		</div>
       		<div class="span4 "></div>
       	</div>
         <hr>
-        <?php 
+        <?php
         	if(isset($error)){
         		echo $error; // @TODO: Add styling for the error
         	}
@@ -117,7 +119,7 @@
 			<div class="span2 "></div>
 		</div>
 	</div>
-		<?php //echo validation_errors(); ?>
+		<?php $err = array(validation_errors()); if(is_array($err)){ foreach($err as $e) { echo $e; }}?>
 	
 	</div>
 <div style="clear: both"></div>

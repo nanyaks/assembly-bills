@@ -18,10 +18,13 @@ class User extends CI_Controller {
 	public function __construct(){		
 		parent::__construct();
 		
-		// Load User Model
+		#	Load User Model
 		$this->load->model('user_model');
 		
-		// Load $css and $base variables..
+		#	Load libraries
+		$this->load->library('session');
+		
+		#	Load $css and $base variables..
 		$this->base = $this->config->item('base_url');
 		$this->css = $this->config->item('css');
 		$this->js = $this->config->item('js');
@@ -43,29 +46,39 @@ class User extends CI_Controller {
 	}
 	
 	public function index(){
-		echo "Index Page coming soon!";
-		echo "<br />Try user/register";
+		$this->load->helper('url');
+		
+		echo "User Home coming soon!";
+		echo "<br />Try <a href=" . site_url('user/register') . ">user/register</a>";
+	}
+	
+	/*
+	 * Show all the bills the user has shown interest in. This will have different views - one for logged in user and the other
+	 * for 'not logged in' user -- I guess 
+	 */
+	public function showbills(){
+		
 	}
 	
 	public function register(){
 		$data = $this->_static();
-
-		// Load the url helper...
+		
+		#	Load the url helper...
 		$this->load->helper('url');
 		$this->load->helper('form');
-		$this->load->library(array('encrypt', 'form_validation', 'session'));
-		//$this->load->library('form_validation');
-		
+		$this->load->library(array('encrypt', 'form_validation', 'session'));		
 		
 		$data['title'] = 'New User Registration -- Assembly Bills';
 		
-		// Set the form rules
+		#	Set the form rules
 		$this->form_validation->set_rules('firstname', 'First Name', 'required|trim|xss_clean');
 		$this->form_validation->set_rules('lastname', 'Last Name', 'required|trim|xss_clean');
 		$this->form_validation->set_rules('gender', 'Gender', 'required');
-		$this->form_validation->set_rules('email', 'User Email', 'trim|xss_clean|callback_email_check');
+		$this->form_validation->set_rules('email', 'User Email', 'trim|xss_clean|is_unique[user_details.email]|callback_email_check');
 		$this->form_validation->set_rules('username', 'Username', 'required|trim|xss_clean');
 		$this->form_validation->set_rules('password', 'Password', 'required|trim|xss_clean');
+		
+		//print_r( $this->session->all_userdata() );
 		
 		#	If the button was clicked
 		if(($this->input->server('REQUEST_METHOD') === 'POST') && $this->input->post('register')){
@@ -107,6 +120,9 @@ class User extends CI_Controller {
 		}
 	}
 	
+	/*
+	 * 	I think this function should be integrated into the register method somehow
+	 */
 	public function edit(){
 		$data = $this->_static();
 		
@@ -157,6 +173,13 @@ class User extends CI_Controller {
 		}
 	}
 	
+	
+	function invites(){
+		$data = $this->_static();
+		
+		// Load helpers
+		$help = array("url",);
+	}
 	/*
 	 * Validation callbacks to be used together with form_input->set_value()
 	 * 
