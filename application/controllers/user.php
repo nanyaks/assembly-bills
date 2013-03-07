@@ -15,7 +15,8 @@ class User extends CI_Controller {
 	 * Function __construct
 	 * Set all init variables here to be loaded when the controller is initialized.
 	 */
-	public function __construct(){		
+	public function __construct()
+	{		
 		parent::__construct();
 		
 		#	Load User Model
@@ -35,7 +36,8 @@ class User extends CI_Controller {
 	/*
 	 * Load static file locations for use within the controller
 	 */
-	public function _static(){
+	public function _static()
+	{
 		$data['base'] = $this->base;
 		$data['css'] = $this->css;
 		$data['js'] = $this->js;
@@ -45,7 +47,8 @@ class User extends CI_Controller {
 		return $data;
 	}
 	
-	public function index(){
+	public function index()
+	{
 		$this->load->helper('url');
 		
 		echo "User Home coming soon!";
@@ -56,16 +59,23 @@ class User extends CI_Controller {
 	 * Show all the bills the user has shown interest in. This will have different views - one for logged in user and the other
 	 * for 'not logged in' user -- I guess 
 	 */
-	public function showbills(){
+	public function showbills()
+	{
 		
 	}
 	
-	public function register(){
+	public function register()
+	{
+		$this->load->helper('security');
 		$data = $this->_static();
-		
-		#	Load the url helper...
-		$this->load->helper('url');
-		$this->load->helper('form');
+		echo "<pre>";
+		print_r($this->session->all_userdata()); die();
+		/*if( ! isset($this->session->userdata($sess_d['logged_in'])) || ! is_auth($this->session->userdata($sess_d['logged_in'])))
+		{
+			redirect('home');
+		}*/
+		#	Load ...
+		$this->load->helper(array('url', 'form'));
 		$this->load->library(array('encrypt', 'form_validation', 'session'));		
 		
 		$data['title'] = 'New User Registration -- Assembly Bills';
@@ -81,10 +91,11 @@ class User extends CI_Controller {
 		//print_r( $this->session->all_userdata() );
 		
 		#	If the button was clicked
-		if(($this->input->server('REQUEST_METHOD') === 'POST') && $this->input->post('register')){
-			//print_r($this->input->post());
+		if(($this->input->server('REQUEST_METHOD') === 'POST') && $this->input->post('register'))
+		{
 			#	Check if the form passed validation
-			if($this->form_validation->run() == FALSE) {
+			if($this->form_validation->run() == FALSE)
+			{
 				$data['error'] = 'Ensure all fields are filled!';
 			
 				//redirect('user/register', 'refresh');	<-- somehow doesn't help with the form re-population
@@ -92,18 +103,35 @@ class User extends CI_Controller {
 				$this->load->view('user/registration', $data);
 				$this->load->view('templates/footer');
 			}
-			else{
-				//$_insert = $this->user_model->register_user();
-				print_r($this->input->post());
+			else
+			{
+				#	Work on the params to be sent to the db
+				$_params = array(
+						'id' => NULL,
+						'username' => $this->input->post('username'),
+						'password' => md5($this->input->post('passwd')),
+						'fname' => $this->input->post('firstname'),
+						'lname'=>$this->input->post('lastname'),
+						'dateReg' => NULL,
+						'email' => $this->input->post('email'),
+						'isDeleted' => 0,
+					);
+				
+				#	Insert data
+				$_insert = $this->user_model->enroll($_params);
+				print_r($_params);
+				//print_r($this->input->post());
 				die();
 				
-				if($_insert){
+				if($_insert)
+				{
 					/*
 					 * @TODO: set flash message to be displayed on this page and then redirect to '$referal' page
 					 */
 					redirect('user/success', 'refresh');
 				}
-				else{
+				else
+				{
 					/*
 					 * @TODO: Test error message if deiplayed properly
 					 */
@@ -123,7 +151,8 @@ class User extends CI_Controller {
 	/*
 	 * 	I think this function should be integrated into the register method somehow
 	 */
-	public function edit(){
+	public function edit()
+	{
 		$data = $this->_static();
 		
 		// Load the url helper...
@@ -155,7 +184,8 @@ class User extends CI_Controller {
 		}
 	}
 	
-	public function bills(){
+	public function bills()
+	{
 		$data = $this->_static();
 		
 		// Load the url helper...
@@ -174,7 +204,8 @@ class User extends CI_Controller {
 	}
 	
 	
-	function invites(){
+	function invites()
+	{
 		$data = $this->_static();
 		
 		// Load helpers
@@ -248,7 +279,8 @@ class User extends CI_Controller {
 		return $isValid;
 	}
 	
-	public function email_check($email){
+	public function email_check($email)
+	{
 		// Regex function returns false when $email NOT EMAIL!
 		if(!$this->_validate_email($email)){
 			$this->form_validation->set_message('email_check', 'The %s is invalid');

@@ -224,7 +224,7 @@ $config['cache_path'] = '';
 | MUST set an encryption key.  See the user guide for info.
 |
 */
-$config['encryption_key'] = 'noMoreJadiJadi**@12itachiORSenju';
+$config['encryption_key'] = 'shinobiGreat**@2->1itachiUchiha|HashiramaSenju';
 
 /*
 |--------------------------------------------------------------------------

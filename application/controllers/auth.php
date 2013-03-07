@@ -44,31 +44,39 @@ var $base;
 		return $data;
 	}
 	
+	/**
+	 * @author Nanyak Loknan S.
+	 * @return bool
+	 * 
+	 */
 	public function login(){
 		$data = $this->_static();
 		$data['title'] = "Login";
 		
 		#	Load helpers
-		$this->load->helper(array('url'));
+		$this->load->helper(array('url',));
 		
 		if($this->input->server('REQUEST_METHOD') === 'POST' && $this->input->post('login')){
 			
-			#	Assign the username and password appropriately
-			$u = $this->input->post('username');
-			$p = md5($this->input->post('password'));
+			#	Prep and Assign the username and password appropriately
+			$u = mysql_real_escape_string($this->input->post('username'));
+			$p = md5(mysql_real_escape_string($this->input->post('password')));
 			
 			$_auth = $this->auth_model->_check_login($u, $p);
 			
 			#	If the $_auth var is true -> int(1), generate session and redirect
 			if ($_auth){
+				$_a = $_auth;
+				
 				#	Register the user session
+				//print_r($_a['username']); die();
 				$sess_d = array(
-						'username' => $_auth['username'],
+						'username' => $_a['username'],
 						'logged_in' => TRUE,
 				);
 				$this->session->set_userdata($sess_d);
 				
-				redirect("user/profile");
+				redirect("user/register");	# redirect to the proper page -> user/profile
 			}
 			else {
 				#	Error with login params
@@ -84,10 +92,14 @@ var $base;
 	
 	
 	
-	/*
-	 * 
+	/**
+	 * @param	string
 	 */
-	private function _check_login($user, $password){
-		
+	public function logout($sess_var = NULL)
+	{
+		if( isset($sess_var))
+		{
+			$this->session->unset_userdata($sess_var);
+		}
 	}
 }
