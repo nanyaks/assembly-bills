@@ -14,9 +14,14 @@
               <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-              <li><a href="#">Profile</a></li>
+            <!-- if user is not logged in, show login else profile -->
+            <?php if (!isset($logged_in) || empty($logged_in)){ ?>
+            		<li><a href="<?php echo site_url('auth/login'); ?>">Login</a></li>
+            	<?php } else { ?>
+            		<li><a href="<?php echo site_url('user/profile'); ?>">Profile</a></li>
+            	<?php } ?>
               <li class="divider"></li>
-              <li><a href="#">Sign Out</a></li>
+              <li><a href="<?php echo site_url('auth/logout'); ?>">Sign Out</a></li>
             </ul>
           </div>
           <div class="nav-collapse">

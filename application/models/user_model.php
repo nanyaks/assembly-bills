@@ -10,13 +10,13 @@ class User_model extends CI_Model{
 	
 	/**
 	 * function enroll()
-	 * Uses the codeigniter api to capture the $_POST array and inserts into the database
+	 * inserts captured data into the database
 	 */
 	public function enroll($insert = NULL)
 	{
 		if($insert === NULL || ! is_array($insert)){
 			return FALSE;
-		}	
+		}
 		
 		return $this->db->insert('user_details', $insert);
 	}
@@ -25,14 +25,20 @@ class User_model extends CI_Model{
 	/**
 	 * function get_view($id)
 	 * It gets customer info from the database; if !isset($id), all the users are got else only $id is retrieved
+	 * 
+	 * @param	integer
+	 * @return	array
+	 * 
 	 */
 	public function get_view($user_id = NULL)
 	{
-		// If $user_id exists and is set,
-		if(!isset($user_id) || $user_id === FALSE){
-			$query = $this->db->get('user_details');
+		/*
+		 * @TODO: Check the purpose of this function; if only for login, then there is no use getting all the users' details, is there?
+		 */
+		if(!isset($user_id) || $user_id === NULL){
+			$query = $this->db->get('user_details');	#	Cant figure out why im getting all the users' details!
 			
-			return $query->result_array();
+			return $query->result_array();		#	I really should just return FALSE if !isset(user_id)
 		}
 		else {
 			$query = $this->db->get_where('user_details', array('id'=>$user_id));

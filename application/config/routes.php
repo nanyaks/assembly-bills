@@ -37,10 +37,12 @@
 | in the URL cannot be matched to a valid route.
 |
 */
+$route['auth/logout'] = 'auth/logout';
 $route['auth/login'] = 'auth/login';
 $route['auth'] = 'auth/login';
 $route['user/view/(:any)'] = 'user/view/$1';
 $route['user/register'] = 'user/register';
+$route['user/profile'] = 'user/profile';
 $route['default_controller'] = 'home';
 $route['404_override'] = '';
 

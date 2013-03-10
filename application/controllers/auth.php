@@ -59,24 +59,19 @@ var $base;
 		if($this->input->server('REQUEST_METHOD') === 'POST' && $this->input->post('login')){
 			
 			#	Prep and Assign the username and password appropriately
-			$u = mysql_real_escape_string($this->input->post('username'));
-			$p = md5(mysql_real_escape_string($this->input->post('password')));
+			$u = $this->input->post('username');
+			$p = md5($this->input->post('password'));
 			
 			$_auth = $this->auth_model->_check_login($u, $p);
-			
 			#	If the $_auth var is true -> int(1), generate session and redirect
-			if ($_auth){
-				$_a = $_auth;
-				
-				#	Register the user session
-				//print_r($_a['username']); die();
+			if ($_auth)
+			{
 				$sess_d = array(
-						'username' => $_a['username'],
+						'username' => $_auth['username'],
 						'logged_in' => TRUE,
-				);
+						);
 				$this->session->set_userdata($sess_d);
-				
-				redirect("user/register");	# redirect to the proper page -> user/profile
+				redirect("user/profile");
 			}
 			else {
 				#	Error with login params
@@ -91,15 +86,22 @@ var $base;
 	}
 	
 	
-	
 	/**
-	 * @param	string
+	 * @param	array
 	 */
-	public function logout($sess_var = NULL)
+	public function logout()
 	{
-		if( isset($sess_var))
-		{
-			$this->session->unset_userdata($sess_var);
-		}
+		#	Load helpers
+		$this->load->helper(array('url',));
+		//print_r($this->session->set_userdata($sess_d)); die();
+		//print_r($this->session->all_userdata()); die();
+		//if( isset($sess_var))
+		//{
+			$unset_data = array('username' => '', 'logged_in'=> '');
+			$this->session->unset_userdata($unset_data);
+		//}
+		
+		#	redirect to home page
+		redirect('home');
 	}
 }

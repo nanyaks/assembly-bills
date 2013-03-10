@@ -55,25 +55,42 @@ class User extends CI_Controller {
 		echo "<br />Try <a href=" . site_url('user/register') . ">user/register</a>";
 	}
 	
-	/*
+	/**
 	 * Show all the bills the user has shown interest in. This will have different views - one for logged in user and the other
-	 * for 'not logged in' user -- I guess 
+	 * for 'not logged in' user -- I guess
+	 * 
+	 * @param	string
 	 */
-	public function showbills()
+	public function showbills($userid = NULL)
 	{
-		
+		/*
+		 * if $usrid = null, show all the bills else show only my bills --> bills/$usrid
+		 */
 	}
 	
+	
+	/**
+	 * 	Show the user profile
+	 */
+	public function profile()
+	{
+		#	Load ...
+		$this->load->helper(array('url',));
+		$this->load->library(array('session',));
+		
+		echo "<pre>";
+		print_r($this->session->all_userdata()); die();
+	}
+	
+	
+	/**
+	 * 	Register the user
+	 */
 	public function register()
 	{
 		$this->load->helper('security');
 		$data = $this->_static();
-		echo "<pre>";
-		print_r($this->session->all_userdata()); die();
-		/*if( ! isset($this->session->userdata($sess_d['logged_in'])) || ! is_auth($this->session->userdata($sess_d['logged_in'])))
-		{
-			redirect('home');
-		}*/
+		
 		#	Load ...
 		$this->load->helper(array('url', 'form'));
 		$this->load->library(array('encrypt', 'form_validation', 'session'));		
@@ -88,32 +105,32 @@ class User extends CI_Controller {
 		$this->form_validation->set_rules('username', 'Username', 'required|trim|xss_clean');
 		$this->form_validation->set_rules('password', 'Password', 'required|trim|xss_clean');
 		
-		//print_r( $this->session->all_userdata() );
-		
 		#	If the button was clicked
 		if(($this->input->server('REQUEST_METHOD') === 'POST') && $this->input->post('register'))
 		{
-			#	Check if the form passed validation
 			if($this->form_validation->run() == FALSE)
 			{
 				$data['error'] = 'Ensure all fields are filled!';
-			
-				//redirect('user/register', 'refresh');	<-- somehow doesn't help with the form re-population
+				
 				$this->load->view('templates/header', $data);
 				$this->load->view('user/registration', $data);
 				$this->load->view('templates/footer');
 			}
 			else
 			{
-				#	Work on the params to be sent to the db
+				#	Work on the params to be sent to the db:
+				/*
+				 * @TODO: have to do some 'data prepping' if $this->input->post() does not.
+				 * 		$this->input->post(): second parameter allows for XSS filtering
+				 */ 
 				$_params = array(
 						'id' => NULL,
-						'username' => $this->input->post('username'),
-						'password' => md5($this->input->post('passwd')),
-						'fname' => $this->input->post('firstname'),
-						'lname'=>$this->input->post('lastname'),
+						'username' => $this->input->post('username', TRUE),
+						'password' => md5($this->input->post('passwd', TRUE)),
+						'fname' => $this->input->post('firstname', TRUE),
+						'lname'=>$this->input->post('lastname', TRUE),
 						'dateReg' => NULL,
-						'email' => $this->input->post('email'),
+						'email' => $this->input->post('email', TRUE),
 						'isDeleted' => 0,
 					);
 				
@@ -147,6 +164,23 @@ class User extends CI_Controller {
 			$this->load->view('templates/footer');
 		}
 	}
+	
+	
+	/*
+	 * Send invitations to friends to use the app
+	 */
+	public function invites(){
+		
+	}
+	
+	
+	/*
+	 * View and change my settings
+	 */
+	public function settings(){
+		
+	}
+	
 	
 	/*
 	 * 	I think this function should be integrated into the register method somehow
@@ -204,13 +238,6 @@ class User extends CI_Controller {
 	}
 	
 	
-	function invites()
-	{
-		$data = $this->_static();
-		
-		// Load helpers
-		$help = array("url",);
-	}
 	/*
 	 * Validation callbacks to be used together with form_input->set_value()
 	 * 

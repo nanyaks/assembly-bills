@@ -30,6 +30,9 @@ class Home extends CI_Controller {
 	public function __construct(){		
 		parent::__construct();	//	Load parent constructor
 		
+		#	Load libraries
+		$this->load->library('session');
+		
 		$this->base = $this->config->item('base_url');
 		$this->css = $this->config->item('css');
 		$this->js = $this->config->item('js');
@@ -56,7 +59,18 @@ class Home extends CI_Controller {
 		$data['less'] = $this->less;
 		
 		$data['title'] = 'Assembly Bills | Welcome';
+		$data['logged_in'] = FALSE;	#	Track the login status of the user.
 		
+		//print_r($this->session->all_userdata());
+		$ua = $this->session->userdata('user_agent');
+		$ulog = $this->session->userdata('logged_in');
+		
+		//$ulog = isset($this->session->userdata('logged_in')) ?  : FALSE;
+		
+		if(isset($ulog) && $ulog == 1){
+			$data['logged_in'] = TRUE;
+		}
+		//var_dump($data); die();
 		$this->load->view('templates/header.php', $data);
 		$this->load->view('home.php', $data);
 		$this->load->view('templates/footer.php');
