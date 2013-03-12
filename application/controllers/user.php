@@ -74,6 +74,8 @@ class User extends CI_Controller {
 	 */
 	public function profile()
 	{
+		$data = $this->_static();
+		
 		#	Load ...
 		$this->load->helper(array('url',));
 		$this->load->library(array('session',));
@@ -88,11 +90,10 @@ class User extends CI_Controller {
 	 */
 	public function register()
 	{
-		$this->load->helper('security');
 		$data = $this->_static();
 		
 		#	Load ...
-		$this->load->helper(array('url', 'form'));
+		$this->load->helper(array('url', 'form', 'security'));
 		$this->load->library(array('encrypt', 'form_validation', 'session'));		
 		
 		$data['title'] = 'New User Registration -- Assembly Bills';
@@ -122,6 +123,7 @@ class User extends CI_Controller {
 				/*
 				 * @TODO: have to do some 'data prepping' if $this->input->post() does not.
 				 * 		$this->input->post(): second parameter allows for XSS filtering
+				 * 		do we need mysql_real_escape_string?
 				 */ 
 				$_params = array(
 						'id' => NULL,
@@ -136,9 +138,9 @@ class User extends CI_Controller {
 				
 				#	Insert data
 				$_insert = $this->user_model->enroll($_params);
-				print_r($_params);
+				//print_r($_params);
 				//print_r($this->input->post());
-				die();
+				//die();
 				
 				if($_insert)
 				{
@@ -150,9 +152,10 @@ class User extends CI_Controller {
 				else
 				{
 					/*
-					 * @TODO: Test error message if deiplayed properly
+					 * @TODO: Test error message if displayed properly
 					 */
-					$this->session->set_flashdata('message', 'Insertion Error');
+					$this->session->set_flashdata('message', 'An Error occured while registering.');
+					redirect('user/register', 'refresh');
 				}
 				
 			}
@@ -235,6 +238,23 @@ class User extends CI_Controller {
 			$this->load->view('user/mybills', $data);
 			$this->load->view('templates/footer');
 		}
+	}
+	
+	
+	/**
+	 * function success()
+	 */
+	public function success(){
+		$data = $this->_static();
+		
+		#	Load ...
+		$this->load->helper(array('url',));
+		$this->load->library(array('session',));
+		
+		$data['title'] = "Enrollment Success | Assembly Bills";
+		
+		redirect('user/home', 'refresh');
+		
 	}
 	
 	
