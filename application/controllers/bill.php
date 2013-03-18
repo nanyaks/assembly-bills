@@ -126,7 +126,7 @@ class Bill extends CI_Controller {
 	
 	public function rate_bill($id = NULL){
 		// This function will be invoked from the 'view bill' page. Its for rating the bills that have been enrolled
-		if($bill_id === NULL or $bill_id == FALSE){
+		if($id === NULL or $id == FALSE){
 			return FALSE;
 		}
 	}

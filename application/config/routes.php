@@ -43,6 +43,10 @@ $route['auth'] = 'auth/login';
 $route['user/view/(:any)'] = 'user/view/$1';
 $route['user/register'] = 'user/register';
 $route['user/profile'] = 'user/profile';
+$route['user/settings'] = 'user/settings';
+$route['user/tests'] = 'user/tests';
+//$route['user/home'] = 'user/profile';		//	same as the above line...is it neccessary!
+$route['ajax/check_email_exists'] = 'ajax/check_email_exists';
 $route['default_controller'] = 'home';
 $route['404_override'] = '';
 

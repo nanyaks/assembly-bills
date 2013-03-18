@@ -15,7 +15,7 @@ class Auth_model extends CI_Model {
 	 *	@param	String
 	 *	@return array
 	 */
-	public function _check_login($u, $p)
+	public function _check_login($u = '', $p = '')
 	{
 		$qdata = array(
 					"username"=>$u,
@@ -27,5 +27,15 @@ class Auth_model extends CI_Model {
 		$res = (array)$query->row();	//	Typecasting as it doesnt allow referencing an object - instanceof(StdClass) - as an array
 		
 		return $res;
+	}
+	
+	
+	/**
+	 * 	Check if user email exists in the database
+	 * 	@param string $email
+	 * 	@return bool
+	 */
+	public function _check_email_exists($email = ''){
+		
 	}
 }

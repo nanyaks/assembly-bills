@@ -61,7 +61,7 @@ class User extends CI_Controller {
 	 * 
 	 * @param	string
 	 */
-	public function showbills($userid = NULL)
+	public function _showbills($userid = NULL)
 	{
 		/*
 		 * if $usrid = null, show all the bills else show only my bills --> bills/$usrid
@@ -69,20 +69,6 @@ class User extends CI_Controller {
 	}
 	
 	
-	/**
-	 * 	Show the user profile
-	 */
-	public function profile()
-	{
-		$data = $this->_static();
-		
-		#	Load ...
-		$this->load->helper(array('url',));
-		$this->load->library(array('session',));
-		
-		echo "<pre>";
-		print_r($this->session->all_userdata()); die();
-	}
 	
 	
 	/**
@@ -94,9 +80,11 @@ class User extends CI_Controller {
 		
 		#	Load ...
 		$this->load->helper(array('url', 'form', 'security'));
-		$this->load->library(array('encrypt', 'form_validation', 'session'));		
+		$this->load->library(array('encrypt', 'form_validation', 'session'));
 		
 		$data['title'] = 'New User Registration -- Assembly Bills';
+		
+		//print_r($this->session->userdata); 
 		
 		#	Set the form rules
 		$this->form_validation->set_rules('firstname', 'First Name', 'required|trim|xss_clean');
@@ -135,12 +123,7 @@ class User extends CI_Controller {
 						'email' => $this->input->post('email', TRUE),
 						'isDeleted' => 0,
 					);
-				
-				#	Insert data
 				$_insert = $this->user_model->enroll($_params);
-				//print_r($_params);
-				//print_r($this->input->post());
-				//die();
 				
 				if($_insert)
 				{
@@ -169,11 +152,55 @@ class User extends CI_Controller {
 	}
 	
 	
+	/**
+	 * 	Show the user profile
+	 */
+	public function profile()
+	{
+		$data = $this->_static();
+	
+		
+		#	Load ...
+		$this->load->helper(array('url', 'form', 'security'));
+		//$this->load->library(array('encrypt', 'form_validation', 'session'));
+		
+		//echo "<pre>";
+		//print_r($this->session->all_userdata()); die();
+		
+		#	set title
+		$data['title'] = "Profile page";
+		
+		/*if( !  isset($this->session->userdata['userid'])){
+			refresh_to('auth/login');
+			exit();
+		}*/
+		
+		#	Set user environment --> query userid
+		
+		#	Display page
+		$this->load->view('templates/header', $data);
+		$this->load->view('user/profile', $data);
+		$this->load->view('templates/footer');
+	}
+	
+	
 	/*
 	 * Send invitations to friends to use the app
 	 */
 	public function invites(){
+		#	Load
+		$this->load->helper(array('url', 'form', 'security'));
+		$this->load->library(array('encrypt', 'form_validation', 'session'));
 		
+		#	set title
+		$data['title'] = "Invite friends";
+		
+		if( !  isset($this->session->userdata['userid'])){
+			redirect('home');
+			exit();
+		}
+		
+		#	 Set user environment --> query userid
 	}
 	
 	
@@ -181,7 +208,20 @@ class User extends CI_Controller {
 	 * View and change my settings
 	 */
 	public function settings(){
+		#	Load
+		$this->load->helper(array('url', 'form', 'security'));
+		$this->load->library(array('encrypt', 'form_validation', 'session'));
 		
+		#	set title
+		$data['title'] = "Invite friends";
+		
+		//print_r($this->session->all_userdata()); die();
+		if( !  isset($this->session->userdata['userid'])){
+			refresh_to('auth/login');
+			exit();
+		}
+		
+		echo "Settings page!";
 	}
 	
 	
@@ -209,12 +249,15 @@ class User extends CI_Controller {
 		$this->form_validation->set_rules('password', 'Password', 'required');
 		
 		// If form is !(validated), load form with error messages
-		if($this->form_validation->run() === FALSE){
+		if($this->form_validation->run() === FALSE)
+		{
 			// Load the view
 			$this->load->view('templates/header', $data);
 			$this->load->view('user/edit', $data);
 			$this->load->view('templates/footer');
-		} else {
+		}
+		else
+		{
 			// Insert into db here!
 			$_insert = $this->user_model->register_user();
 			$this->load->view('user/success');
@@ -257,7 +300,14 @@ class User extends CI_Controller {
 		
 	}
 	
-	
+	public function tests(){
+		$val = 'nanyaks';
+		// if email exists, return 1
+		if($this->user_model->username_exists($val))
+		{
+			echo '1 ' . $val . " exists!";
+		}
+	}
 	/*
 	 * Validation callbacks to be used together with form_input->set_value()
 	 * 

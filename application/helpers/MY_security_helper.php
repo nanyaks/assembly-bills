@@ -10,8 +10,7 @@ if ( ! function_exists('is_auth'))
 {
 	function is_auth($userId) // NOT TESTED YET!!
 	{
-		$CI =& get_instance();
-		if( ! $CI->session->userdata($userId))
+		if( ! isset($userId) || empty($userId))
 		{
 			//redirect('auth/login');	// takes over control from the calling script!!
 			return FALSE;	#	so we can redirect on the calling script

@@ -47,4 +47,38 @@ class User_model extends CI_Model{
 		}
 	}
 	
+	/**
+	 * Ajax utility
+	 * @param string $email
+	 * @return boolean
+	 */
+	public function email_exists($email = ''){
+		if ($email == ''){
+			return FALSE;
+		}
+		
+		$query = $this->db->get_where('user_details', array('email'=>$email));
+		
+		if($query->row_array()){
+			return TRUE;
+		}
+	}
+
+	/**
+	 * Ajax utility
+	 * @param string $username
+	 * @return boolean
+	 */
+	public function username_exists($username = ''){
+		if ($username == ''){
+			return FALSE;
+		}
+	
+		$query = $this->db->get_where('user_details', array('username'=>$username));
+	
+		if($query->row_array()){
+			return TRUE;
+		}
+	}
+	
 }

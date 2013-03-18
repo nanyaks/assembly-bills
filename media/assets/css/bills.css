@@ -10,3 +10,18 @@
 .debug {
 	border: 1px dotted #aa0000;
 }
+
+.underlinez {
+	border-bottom: 1px solid #ededed;
+	margin: 0pt 0pt 35pt 0pt;
+	padding: 0;
+}
+
+.btn-vlarge-h {
+  padding: 9px 42px;
+  font-size: 15px;
+  line-height: normal;
+  -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+          border-radius: 5px;
+}

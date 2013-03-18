@@ -64,13 +64,15 @@ var $base;
 			
 			$_auth = $this->auth_model->_check_login($u, $p);
 			#	If the $_auth var is true -> int(1), generate session and redirect
+			//print_r($_auth); die();
 			if ($_auth)
 			{
-				$sess_d = array(
+				$user_data = array(
 						'username' => $_auth['username'],
+						'userid' => $_auth['id'],
 						'logged_in' => TRUE,
 						);
-				$this->session->set_userdata($sess_d);
+				$this->session->set_userdata($user_data);
 				redirect("user/profile");
 			}
 			else {

@@ -13,5 +13,12 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo $base . $css . '/bills.css'; ?>">
 	<style type="text/css">
 	</style>
+	
+	<script type="text/javascript">
+		//	config object for basic .js use 
+		var config = {
+				base:	"<?php echo base_url(); ?>"
+		}
+	</script>
 </head>
 <body>

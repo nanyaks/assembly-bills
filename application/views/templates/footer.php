@@ -16,12 +16,25 @@
     <script src="<?php echo $js . '/bootstrap-collapse.js'; ?>"></script>
     <script src="<?php echo $js . '/bootstrap-carousel.js'; ?>"></script>
     <script src="<?php echo $js . '/bootstrap-typeahead.js'; ?>"></script>
-
-    <div class="footer-row">
-	    <footer>
-			<div class='foot'>&copy; Assembly Bills <?php echo date('Y') . ' - A Google Technology Initiative. All Rights Reserved.'?> </div>
-		</footer>
+	<script src="<?php echo $js . '/global.js'; ?>"></script>
+	
+    <div class="row-fluid">
+    	<div class="span2"></div>
+    	<div class="span8 footer-row row-fluid">
+    		<div class="span6">
+    			<ul style="list-style: none; padding: 12px 0px;">
+    				<li>About</li>
+    				<li>Contact us</li>
+    			</ul>
+    		</div>
+    		<div class="span6">
+    			<footer class="pull-right">
+					<div class='foot'>&copy; Assembly Bills <?php echo date('Y') . ' - A Google Technology Initiative. All Rights Reserved.'?> </div>
+				</footer>
+    		</div>
+	    	
+    	</div>
+    	<div class="span2"></div>
     </div>
-
 </body>
 </html>
